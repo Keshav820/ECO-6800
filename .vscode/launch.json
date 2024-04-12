@@ -6,10 +6,10 @@
     "configurations": [
 
         {
-            "name": "Python Debugger: Controller",
+            "name": "Python Debugger: Startup",
             "type": "debugpy",
             "request": "launch",
-            "program": "/home/athena/ECO6800/controller.py",
+            "program": "/home/athena/ECO6800/startup.py",
             "console": "integratedTerminal"
         }
     ]

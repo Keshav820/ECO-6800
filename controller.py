@@ -9,6 +9,9 @@ from service import event_service
 
 import json
 
+def startup():
+    run(app, host='localhost', port=8080)
+
 app = Bottle()
 
 @app.post('/event')
