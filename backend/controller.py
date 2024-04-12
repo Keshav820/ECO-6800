@@ -1,4 +1,5 @@
-from bottle import Bottle, request, response, run, HTTPResponse
+from bottle import Bottle, request, response, run, HTTPResponse, redirect
+from bottle_cors_plugin import cors_plugin
 from classes.request import CreateEventRequest
 
 from classes.response import CreateEventResponse
@@ -13,8 +14,9 @@ def startup():
     run(app, host='localhost', port=8080)
 
 app = Bottle()
+app.install(cors_plugin())
 
-@app.post('/event')
+@app.post('/api/event')
 def create_event():
     try:
         auth_service.validate_session(request.get_header('Authorization'))
@@ -29,6 +31,11 @@ def create_event():
         )
     except Exception as e:
         return exception_handler.handler(e)
+    
+@app.post('/api/login')
+def login():
+    print(request.json)
+    return redirect('http://localhost:4200/dashboard')
 
 if __name__ == '__main__':
     run(app, host='localhost', port=8080)

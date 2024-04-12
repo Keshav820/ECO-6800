@@ -32,5 +32,10 @@
       "!{projectRoot}/**/*.spec.[jt]s"
     ]
   },
-  "nxCloudAccessToken": "M2Y2NzQ3NmQtNDQ3NS00NzEyLWIyMjItM2Q0Y2JiYTg3MjQ1fHJlYWQtd3JpdGU="
+  "nxCloudAccessToken": "M2Y2NzQ3NmQtNDQ3NS00NzEyLWIyMjItM2Q0Y2JiYTg3MjQ1fHJlYWQtd3JpdGU=",
+  "generators": {
+    "@nx/angular:component": {
+      "style": "css"
+    }
+  }
 }
