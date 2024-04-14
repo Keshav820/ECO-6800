@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import List, Any, TypeVar, Callable, Type, cast
-from classes.request import CreateEventRequest
+from classes.request import Event
 
 
 T = TypeVar("T")
@@ -18,19 +18,19 @@ def to_class(c: Type[T], x: Any) -> dict:
 @dataclass
 class CreateEventResponse:
     message: str
-    request: CreateEventRequest
+    request: Event
 
     @staticmethod
     def from_dict(obj: Any) -> 'CreateEventResponse':
         assert isinstance(obj, dict)
         message = from_str(obj.get("message"))
-        request = CreateEventRequest.from_dict(obj.get("request"))
+        request = Event.from_dict(obj.get("request"))
         return CreateEventResponse(message, request)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["message"] = from_str(self.message)
-        result["request"] = to_class(CreateEventRequest, self.request)
+        result["request"] = to_class(Event, self.request)
         return result
     
 def create_event_response_from_dict(s: Any) -> CreateEventResponse:
