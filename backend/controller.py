@@ -52,10 +52,30 @@ def edit_event():
 def get_event():
     try:
         user_id = auth_service.validate_session(request.get_header('Authorization'))
-        events = event_service.get_events_self(user_id)
+        params = dict(request.query.decode())
+        events = []
+        if params is not None and "owner_id" in params.keys:
+            events = event_service.get_events_other(user_id, params.get("owner_id"))
+        else:
+            events = event_service.get_events_self(user_id)
 
         return HTTPResponse(
-            body=json.dumps(events),
+                body=json.dumps(events),
+                status=200,
+                headers={'Content-Type': 'application/json'}
+                )
+    except Exception as e:
+        return exception_handler.handler(e)
+    
+@app.delete('/api/event')
+def delete_event():
+    try:
+        user_id = auth_service.validate_session(request.get_header('Authorization'))
+        create_event_request = Event.from_dict(request.json)
+        created_event =  event_service.delete_event(user_id, create_event_request)
+
+        return HTTPResponse(
+            body=json.dumps(CreateEventResponse.to_dict(created_event)),
             status=200,
             headers={'Content-Type': 'application/json'}
         )
