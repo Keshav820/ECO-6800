@@ -14,7 +14,7 @@ def get_events_self(user_id:str):
     con = sqlite3.connect("db.sqlite3")
     cur = con.cursor()
 
-    sql = "select event_id, event_name, user_id, start_time, end_time from events where user_id =?"
+    sql = "select event_id, event_name, user_id, start_time, end_time from events where user_id =? and is_deleted=0"
 
     cur.execute(sql, (user_id,))
     result_set = cur.fetchall()
@@ -25,7 +25,7 @@ def get_events_self_event_id(user_id:str, event_id:str):
     con = sqlite3.connect("db.sqlite3")
     cur = con.cursor()
 
-    sql = "select event_id, event_name, user_id, start_time, end_time from events where user_id =? and event_id=? limit 1"
+    sql = "select event_id, event_name, user_id, start_time, end_time from events where user_id =? and event_id=? and is_deleted=0 limit 1"
 
     try:
         cur.execute(sql, (user_id, event_id,))
@@ -38,3 +38,11 @@ def get_events_self_event_id(user_id:str, event_id:str):
     except Exception as e:
         raise ValueError("No such event for this user_id")
     return res[0]
+
+def delete_event(user_id:str, event_id:str):
+    con = sqlite3.connect("db.sqlite3")
+    cur = con.cursor()
+
+    sql = "update events set is_deleted=1 where user_id=? and event_id=?"
+    cur.execute(sql, (user_id, event_id))
+    con.commit()
